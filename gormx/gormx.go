@@ -1,0 +1,46 @@
+package gormx
+
+import (
+	"github.com/eztop/go_common/errorsx"
+	"github.com/eztop/go_common/log"
+	"github.com/eztop/go_common/sqlx"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
+)
+
+// Conf Conf
+type Conf struct {
+	*sqlx.Conf `toml:",inline" json:",inline" yaml:",inline"`
+}
+
+// MustOpen MustOpen
+func MustOpen(conf *Conf) *gorm.DB {
+	db, err := Open(conf)
+	if err != nil {
+		log.WithError(err).
+			Fatalf("failed to Open,err:%v", err)
+	}
+	return db
+}
+
+// Open Open
+func Open(conf *Conf) (*gorm.DB, error) {
+	stdDB, err := sqlx.Open(conf.Conf)
+	if err != nil {
+		return nil, errorsx.Trace(err)
+	}
+	mysqlConfig := mysql.Config{
+		Conn: stdDB,
+	}
+	dialector := mysql.New(mysqlConfig)
+	gormDB, err := gorm.Open(dialector, &gorm.Config{
+		Logger:   logger.Discard,
+		ConnPool: stdDB,
+	})
+	if err != nil {
+		return nil, errorsx.Trace(err)
+	}
+	// gormDB.Use(&TracingPlugin{})
+	return gormDB, nil
+}

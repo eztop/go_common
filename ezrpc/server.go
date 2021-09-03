@@ -1,4 +1,4 @@
-package rpc
+package ezrpc
 
 import (
 	"bytes"
@@ -11,9 +11,9 @@ import (
 
 	"github.com/eztop/go_common/errcode"
 	"github.com/eztop/go_common/errorsx"
+	"github.com/eztop/go_common/ezrpc/interceptor"
 	"github.com/eztop/go_common/httpx"
 	"github.com/eztop/go_common/log"
-	"github.com/eztop/go_common/rpc/interceptor"
 	"github.com/eztop/go_common/stack"
 	"github.com/eztop/go_common/tracing"
 	"google.golang.org/grpc"

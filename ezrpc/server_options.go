@@ -1,7 +1,7 @@
-package rpc
+package ezrpc
 
 import (
-	"github.com/eztop/go_common/rpc/interceptor"
+	"github.com/eztop/go_common/ezrpc/interceptor"
 )
 
 // ServerOptions ServerOptions

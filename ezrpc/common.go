@@ -1,4 +1,4 @@
-package rpc
+package ezrpc
 
 // Wraper Wraper
 type Wraper interface {

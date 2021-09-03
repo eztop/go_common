@@ -1,4 +1,4 @@
-package rpc
+package ezrpc
 
 import (
 	"bytes"
@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/eztop/go_common/errcode"
 	"github.com/eztop/go_common/errorsx"
 	"github.com/eztop/go_common/httpx"
 	"github.com/eztop/go_common/stack"
@@ -90,6 +91,9 @@ func (c *client) Invoke(ctx context.Context, path string, req, resp interface{},
 	httpResp, err := httpx.DefaultClient().Do(httpReq)
 	if err != nil {
 		return errorsx.Trace(err)
+	}
+	if httpResp.StatusCode != http.StatusOK {
+		return errorsx.NewWithField("unexpected statuscode", "statuscode", errcode.ErrCode(httpResp.StatusCode))
 	}
 
 	respData, respBody, err := httpx.DrainBody(httpResp.Body)

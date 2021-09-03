@@ -1,4 +1,4 @@
-package rpc_test
+package ezrpc_test
 
 import (
 	"context"
@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/eztop/go_common/errorsx"
-	"github.com/eztop/go_common/rpc"
-	"github.com/eztop/go_common/rpc/interceptor"
+	"github.com/eztop/go_common/ezrpc"
+	"github.com/eztop/go_common/ezrpc/interceptor"
 )
 
 type respWrap struct {
@@ -29,7 +29,7 @@ func (r *resp) UnWrap() bool {
 }
 
 func TestServer(t *testing.T) {
-	s := rpc.NewServer(nil)
+	s := ezrpc.NewServer(nil)
 
 	type req struct {
 		Data string
@@ -63,10 +63,10 @@ func TestServer(t *testing.T) {
 	go s.Start()
 
 	time.Sleep(time.Second)
-	c := rpc.NewClient("aa", "127.0.0.1:8080")
+	c := ezrpc.NewClient("aa", "127.0.0.1:8080")
 	respObj := &resp{}
 	ctx, cancel := context.WithTimeout(context.TODO(), time.Second*3)
 	defer cancel()
-	fmt.Println(c.Invoke(ctx, "/a", req{Data: "xx"}, respObj), respObj)
+	fmt.Println(c.Invoke(ctx, "/", req{Data: "xx"}, respObj), respObj)
 	time.Sleep(time.Second * 2)
 }

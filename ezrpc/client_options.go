@@ -1,4 +1,4 @@
-package rpc
+package ezrpc
 
 // ClientOptions ClientOptions
 type ClientOptions struct {

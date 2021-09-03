@@ -1,4 +1,4 @@
-package rpc
+package ezrpc
 
 import (
 	"fmt"
